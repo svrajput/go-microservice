@@ -1,15 +1,23 @@
 package app
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/gorilla/mux"
+)
 
 func Start() {
 
-	// Defined custom mux and register route
-	mux := http.NewServeMux()
+	// Defined custom router and register route
+	//router := http.NewServeMux()
+	router := mux.NewRouter()
 
-	mux.HandleFunc("/greet", greet)
-	mux.HandleFunc("/customers", customers)
+	router.HandleFunc("/greet", greet).Methods(http.MethodGet)
+	router.HandleFunc("/customers", customers).Methods(http.MethodGet)
+	router.HandleFunc("/customers/{customer_id:[0-9]+}", getCustomers).Methods(http.MethodGet)
+	router.HandleFunc("/createCustomer/", createCustomer).Methods(http.MethodPost)
 
 	// starting server
-	http.ListenAndServe("localhost:8080", mux)
+	http.ListenAndServe("localhost:8080", router)
+
 }
