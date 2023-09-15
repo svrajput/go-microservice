@@ -41,6 +41,7 @@ func getCustomers(w http.ResponseWriter, r *http.Request) {
 	cid := params["customer_id"]
 
 	fmt.Fprintln(w, cid)
+
 }
 
 func createCustomer(w http.ResponseWriter, r *http.Request) {
