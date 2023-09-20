@@ -8,7 +8,7 @@ import (
 	"github.com/svrajput/go-microservice/service"
 )
 
-type customer struct {
+type Customer struct {
 	Name    string `json:"full_name" xml:"full_name"`
 	City    string `json:"city" xml:"city"`
 	Zipcode string `json:"zip" xml:"zip"`
