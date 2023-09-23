@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
+
 	"github.com/svrajput/go-microservice/domain"
 	"github.com/svrajput/go-microservice/service"
 )
@@ -20,7 +21,8 @@ func Start() {
 	router := mux.NewRouter()
 
 	//wire
-	ch := CustomerHandler{service.NewCustomerService(domain.NewCustomerRepositoryStub())}
+	// ch := CustomerHandler{service.NewCustomerService(domain.NewCustomerRepositoryStub())}
+	ch := CustomerHandler{service.NewCustomerService(domain.NewCustomerRepositoryDb())}
 
 	// Customer Routes
 	router.HandleFunc("/customers", ch.customers).Methods(http.MethodGet)
@@ -41,7 +43,7 @@ func Start() {
 
 func SanityCheck() {
 	//TODO - get all environment variables
-	envVar := []string{
+	envProps := []string{
 		"SERVER_ADDRESS",
 		"SERVER_PORT",
 		"DB_USER",
@@ -51,9 +53,9 @@ func SanityCheck() {
 		"DB_NAME",
 	}
 
-	for _, k := range envVar {
+	for _, k := range envProps {
 		if os.Getenv(k) == "" {
-			log.Fatalf(fmt.Sprintf("Environment Variable is missing %s", k))
+			log.Fatal(fmt.Sprintf("Environment variable %s not defined. Terminating application...", k))
 		}
 	}
 }
