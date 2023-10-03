@@ -5,6 +5,7 @@ import (
 	"encoding/xml"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"github.com/svrajput/go-microservice/service"
 )
 
@@ -37,16 +38,18 @@ func (ch CustomerHandler) customers(w http.ResponseWriter, r *http.Request) {
 
 }
 
-/*
-func getCustomers(w http.ResponseWriter, r *http.Request) {
+func (ch CustomerHandler) getCustomerById(w http.ResponseWriter, r *http.Request) {
 
 	params := mux.Vars(r)
-	cid := params["customer_id"]
+	id := params["customer_id"]
 
-	fmt.Fprintln(w, cid)
+	customer, _ := ch.service.GetCustomerById(id)
+	w.Header().Add("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(customer)
 
 }
 
+/*
 func createCustomer(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "post request received for new customer.")
 }

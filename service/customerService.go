@@ -6,6 +6,7 @@ import "github.com/svrajput/go-microservice/domain"
 // defined GetAllCustomers - which returns list of customers.
 type CustomerService interface {
 	GetAllCustomers() ([]domain.Customer, error)
+	GetCustomerById(string) (*domain.Customer, error)
 }
 
 // TODO - create DefaultCustomerService Struct has dependency of domain.customerRepository interface
@@ -16,6 +17,10 @@ type DefaultCustomerService struct {
 // Implement GetAllCustomers
 func (s DefaultCustomerService) GetAllCustomers() ([]domain.Customer, error) {
 	return s.repository.FindAll()
+}
+
+func (s DefaultCustomerService) GetCustomerById(id string) (*domain.Customer, error) {
+	return s.repository.FindById(id)
 }
 
 // TODO create Helper function NewCustomerService
